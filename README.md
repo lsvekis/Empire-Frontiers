@@ -1,6 +1,8 @@
 # Empire Frontiers
 
 A complete turn-based browser strategy game built with HTML, CSS, JavaScript, and the Canvas API.
+Play At
+https://lsvekis.github.io/Empire-Frontiers/
 
 ## Play locally
 
