@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Empire Frontiers</title>
+  <meta name="description" content="Build cities, command armies, and conquer rival empires in a turn-based strategy game.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23121c31'/%3E%3Cpath d='M13 47h38v7H13zm4-5V22l10 8 6-17 7 17 8-8v20z' fill='%23f5c451'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand"><span class="crown">♜</span><span>EMPIRE <b>FRONTIERS</b></span></div>
+      <div class="turn"><span id="turnLabel">Turn 1</span><span class="phase" id="phaseLabel">Your command</span></div>
+      <div class="resources" aria-label="Resources">
+        <span title="Gold">● <b id="gold">0</b><em id="goldIncome">+0</em></span>
+        <span title="Food">◆ <b id="food">0</b><em id="foodIncome">+0</em></span>
+        <span title="Wood">▲ <b id="wood">0</b><em id="woodIncome">+0</em></span>
+      </div>
+      <button class="icon-btn" id="helpBtn" aria-label="How to play">?</button>
+    </header>
+
+    <main class="game-shell">
+      <section class="map-frame" aria-label="Strategy map">
+        <canvas id="gameCanvas" tabindex="0"></canvas>
+        <div id="toast" class="toast" role="status"></div>
+        <div class="map-legend">
+          <span><i class="dot player"></i>You</span><span><i class="dot ember"></i>Ember</span>
+          <span><i class="dot verdant"></i>Verdant</span><span><i class="dot violet"></i>Violet</span>
+        </div>
+      </section>
+
+      <aside class="command-panel">
+        <div class="panel-title"><span>COMMAND</span><span id="selectedCoords">Select a tile</span></div>
+        <div id="selectionCard" class="selection-card empty">
+          <div class="selection-icon">⌖</div>
+          <div><h2>Choose a unit or city</h2><p>Move, attack, capture, or recruit.</p></div>
+        </div>
+
+        <div id="actions" class="actions"></div>
+
+        <div class="objective">
+          <div class="objective-head"><b>CONQUEST</b><span id="cityCount">1 / 8 cities</span></div>
+          <div class="progress"><i id="cityProgress"></i></div>
+          <p>Capture every rival capital to unite the realm.</p>
+        </div>
+
+        <div class="counter-card">
+          <div class="counter-head">UNIT ADVANTAGES</div>
+          <div class="counter-row"><span>🗡 Swordsman</span><b>›</b><span>Foot units</span></div>
+          <div class="counter-row"><span>♞ Cavalry</span><b>›</b><span>🗡 Swordsman</span></div>
+          <div class="counter-row"><span>🔱 Spear</span><b>›</b><span>♞ Cavalry</span></div>
+          <div class="counter-row"><span>🏹 Archer</span><b>›</b><span>🔱 Spear</span></div>
+          <div class="counter-row"><span>⚔ Infantry</span><b>›</b><span>🏹 Archer</span></div>
+          <p class="counter-note">Select a unit for exact power, range, rank, and matchup bonuses.</p>
+        </div>
+
+        <button id="endTurn" class="end-turn">END TURN <span>↵</span></button>
+      </aside>
+    </main>
+  </div>
+
+  <div class="overlay open" id="startOverlay">
+    <div class="modal start-modal">
+      <div class="crest">♜</div>
+      <p class="kicker">A TURN-BASED STRATEGY GAME</p>
+      <h1>EMPIRE<br><span>FRONTIERS</span></h1>
+      <p class="intro">Claim the wildlands. Raise an army. Outsmart three rival empires and capture their capitals.</p>
+      <div class="start-features"><span>8 cities</span><span>4 armies</span><span>1 realm</span></div>
+      <label>Challenge
+        <select id="difficulty"><option value="easy">Explorer</option><option value="normal" selected>Commander</option><option value="hard">Warlord</option></select>
+      </label>
+      <button id="newGame" class="primary">BEGIN CONQUEST</button>
+      <button id="continueGame" class="secondary hidden">CONTINUE SAVED GAME</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="helpOverlay">
+    <div class="modal help-modal">
+      <button class="close" data-close="helpOverlay" aria-label="Close">×</button>
+      <p class="kicker">FIELD MANUAL</p><h2>How to rule the realm</h2>
+      <div class="steps">
+        <article><b>01</b><h3>Build</h3><p>Select empty land inside your territory to construct farms, gold mines, or lumber camps. Income is collected every turn.</p></article>
+        <article><b>02</b><h3>Expand</h3><p>Select a unit, then a highlighted tile. Enter a neutral or enemy city to capture it and expand your borders.</p></article>
+        <article><b>03</b><h3>Counter</h3><p>Attack favored unit types for bonus damage. Archers can fire up to three tiles without moving.</p></article>
+        <article><b>04</b><h3>Upgrade</h3><p>Heal and rank up armies, develop cities, improve resource tiles, and strengthen your empire.</p></article>
+      </div>
+      <p class="tip"><b>Tip:</b> Select an army to preview movement. Units act once per turn and heal slightly when resting in friendly territory.</p>
+    </div>
+  </div>
+
+  <div class="overlay" id="resultOverlay">
+    <div class="modal result-modal"><div class="crest" id="resultIcon">♜</div><p class="kicker" id="resultKicker">REALM UNITED</p><h2 id="resultTitle">Victory</h2><p id="resultText"></p><button id="playAgain" class="primary">PLAY AGAIN</button></div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
